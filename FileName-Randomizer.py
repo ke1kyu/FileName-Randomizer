@@ -7,13 +7,13 @@ import win32con
 import win32gui
 
 # ウィンドウ設定
-root = tk.Tk()
-root.geometry("400x200")
-root.title("FileName Randomizer")
-root.attributes("-topmost", True)
+window = tk.Tk()
+window.geometry("400x200")
+window.title("FileName Randomizer")
+window.attributes("-topmost", True)
 
 # ウィンドウのスタイルを設定する
-hwnd = root.winfo_id()
+hwnd = window.winfo_id()
 style = win32api.GetWindowLong(hwnd, win32con.GWL_EXSTYLE)
 style |= win32con.WS_EX_ACCEPTFILES
 win32api.SetWindowLong(hwnd, win32con.GWL_EXSTYLE, style)
@@ -50,9 +50,9 @@ def wndproc(hwnd, msg, wParam, lParam):
 win32gui.SetWindowLong(hwnd, win32con.GWL_WNDPROC, wndproc)
 
 # ラベルを作成する
-label = tk.Label(root, text="ファイルをドラッグアンドドロップしてください", font=("Arial", 12, "bold"), fg="gray")
+label = tk.Label(window, text="ファイルをドラッグアンドドロップしてください", font=("Arial", 12, "bold"), fg="gray")
 # ウィンドウの中央に配置する
 label.place(relx=0.5, rely=0.5, anchor="center")
 
 
-root.mainloop()
+window.mainloop()
