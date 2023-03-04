@@ -18,7 +18,7 @@ style = win32api.GetWindowLong(hwnd, win32con.GWL_EXSTYLE)
 style |= win32con.WS_EX_ACCEPTFILES
 win32api.SetWindowLong(hwnd, win32con.GWL_EXSTYLE, style)
 
-# WM_DROPFILES メッセージを処理する関数を定義する
+# ファイル名変更処理
 def on_dropfiles(hdrop):
     num_files = win32api.DragQueryFile(hdrop)
     for i in range(num_files):
@@ -27,8 +27,10 @@ def on_dropfiles(hdrop):
         # 拡張子を取得
         file_extension = os.path.splitext(file_path)[1]
 
-        # ファイル名をランダムな32文字の英数字に置き換える
+        # ランダムな32文字の英数字を作成
         random_name = ''.join(random.choices(string.ascii_letters + string.digits, k=32))
+        
+        # 新しいファイルパス
         new_file_path = os.path.join(os.path.dirname(file_path), random_name + file_extension)
         
         # リネーム
@@ -36,7 +38,7 @@ def on_dropfiles(hdrop):
     
     win32api.DragFinish(hdrop)
 
-# WM_DROPFILES メッセージを受け取るためのウィンドウプロシージャを設定する
+# ドラッグアンドドロップ用ウィンドウプロシージャ設定
 def wndproc(hwnd, msg, wParam, lParam):
     if msg == win32con.WM_DROPFILES:
         on_dropfiles(wParam)
